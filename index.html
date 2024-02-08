@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <title>mesttra.</title>
+</head>
+
+<body>
+    <section>
+        <form id="loginForm">
+            <h1>Login</h1>
+            <div class="inputbox">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="email" id="emailInput" required>
+                <label for="emailInput">Email</label>
+            </div>
+            <div class="inputbox">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" id="passwordInput" required>
+                <label for="passwordInput">Senha</label>
+            </div>
+            <div class="forget">
+                <label for="rememberCheckbox"><input type="checkbox" id="rememberCheckbox">Lembrar</label>
+                <a href="#">Esqueci minha senha</a>
+            </div>
+            <button type="button" onclick="login()">Entrar</button>
+            <div class="register">
+                <p>Não possui conta? <a href="#">Registrar</a></p>
+            </div>
+        </form>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        function login() {
+            var email = document.getElementById('emailInput').value;
+            var password = document.getElementById('passwordInput').value;
+            var remember = document.getElementById('rememberCheckbox').checked;
+
+            // Obter dados existentes ou inicializar um array vazio
+            var loginData = JSON.parse(localStorage.getItem('loginData')) || [];
+
+            // Adicionar novo conjunto de dados
+            loginData.push({ email: email, password: password, remember: remember });
+
+            // Salvar os dados no localStorage
+            localStorage.setItem('loginData', JSON.stringify(loginData));
+
+            // Adicione aqui a lógica de autenticação, redirecionamento, etc.
+        }
+
+        // Preencher os campos com os dados salvos, se existirem
+        window.onload = function () {
+            var loginData = JSON.parse(localStorage.getItem('loginData'));
+
+            if (loginData && loginData.length > 0) {
+                var lastLogin = loginData[loginData.length - 1];
+
+                document.getElementById('emailInput').value = lastLogin.email;
+                document.getElementById('passwordInput').value = lastLogin.password;
+                document.getElementById('rememberCheckbox').checked = lastLogin.remember;
+            }
+        };
+    </script>
+</body>
+
+</html>
